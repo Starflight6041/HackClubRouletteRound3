@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 1399886064}
+  occupied: []
+  unoccupied: []
 --- !u!114 &305806173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +662,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: acdf77de372c48c49815d14c5eca7b18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -773,7 +775,9 @@ MonoBehaviour:
   y: 0
   xOrientation: 1
   yOrientation: 0
+  isAtDestination: 0
   gameManager: {fileID: 305806173}
+  map: {fileID: 305806172}
   coroutineLength: 0
 --- !u!1 &807244779
 GameObject:
@@ -1285,7 +1289,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: acdf77de372c48c49815d14c5eca7b18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1326,7 +1330,7 @@ Transform:
   m_GameObject: {fileID: 1399886064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.34, y: -9.27, z: 0}
+  m_LocalPosition: {x: -3.34, y: -9.27, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

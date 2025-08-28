@@ -13,6 +13,7 @@ public class Car : MonoBehaviour
     public bool isAtDestination;
     public GameManagement gameManager;
     public MapCreator map;
+    private float rotation; 
     public float coroutineLength;
     private bool atGoal = false;
 
@@ -20,8 +21,9 @@ public class Car : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log(GameObject.Find("GameOverCanvas"));
-        
+        rotation = 0;
+        //Debug.Log(GameObject.Find("GameOverCanvas"));
+
         pastLocation = MapCreator.GetPos(x, y);
     }
     public void ChangeDestinationStatus(bool a)
@@ -48,19 +50,41 @@ public class Car : MonoBehaviour
     {
         y = b;
     }
+    public void Rotate()
+    {
+        rotation = (rotation + 90);
+        transform.rotation = Quaternion.Euler(0, 0, rotation);
+        if (rotation % 360 <= 180)
+        {
+            xOrientation = (int)(rotation % 180) / -90;
+        }
+        else
+        {
+            xOrientation = (int)(rotation % 180) / 90;
+        }
+        if (rotation % 360 == 0)
+        {
+            yOrientation = 1;
+        }
+        if (Mathf.Abs(rotation) % 360 == 180)
+        {
+            yOrientation = -1; // if I was going to do this why didn't I just do this from the start instead of division lmfao
+        }
+        
+    }
     public void MoveToTile(int a, int b)
     {
-        if (!MapCreator.IsOccupied(a, b))
+        if (!map.IsOccupied(a, b))
         {
-            MapCreator.Unoccupy(x, y);
-            MapCreator.Occupy(a, b);
+            map.Unoccupy(x, y);
+            map.Occupy(a, b);
             pastLocation = MapCreator.GetPos(x, y);
             prospectiveLocation = MapCreator.GetPos(a, b);
             x = a;
             y = b;
             StartCoroutine(gameManager.MoveCar(this, Time.time));
-            Debug.Log(MapCreator.GetTile(a, b));
-            if (MapCreator.GetTile(a, b).IsGoal())
+            Debug.Log(map.GetTile(a, b));
+            if (map.GetTile(a, b).IsGoal())
             {
                 ChangeDestinationStatus(true);
                 Debug.Log("I'm here!");
@@ -70,12 +94,14 @@ public class Car : MonoBehaviour
         }
         else
         {
+
             pastLocation = MapCreator.GetPos(x, y);
             prospectiveLocation = MapCreator.GetPos(a, b);
             x = a;
             y = b;
             StartCoroutine(gameManager.MoveCar(this, Time.time));
             gameManager.FailLevel();
+
         }
     }
     public float GetCoroutineLength()

@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
 public class MapCreator : MonoBehaviour
 {
     public GameObject tile;
     
-    public static List<Tile> occupied = new List<Tile>();
-    public static List<Tile> unoccupied = new List<Tile>();
+    public List<Tile> occupied = new List<Tile>();
+    public List<Tile> unoccupied = new List<Tile>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,24 +23,30 @@ public class MapCreator : MonoBehaviour
         {
             for (int y = 0; y < 8; y++)
             {
-                GameObject a = Instantiate(tile, new Vector3(x * 1.2f - 6, y * 1.2f - 4), Quaternion.identity);
+                GameObject a = Instantiate(tile, new Vector3(x * 1.2f - 6, y * 1.2f - 4, 3), Quaternion.identity);
                 Tile b = a.GetComponent<Tile>();
                 b.ChangeX(x);
                 b.ChangeY(y);
+                //b.transform.position = new Vector3(b.transform.position.x, b.transform.position.y, -1);
                 b.ChangeGoalStatus(false);
+                b.ChangePlaceable2(false);
                 unoccupied.Add(b.GetComponent<Tile>());
 
             }
         }
+        
         SetLevelOneGoals();
     }
     public void SetLevelOneGoals()
     {
-        GetTile(5, 5).ChangeGoalStatus(true);
+
+        GetTile(6, 5).ChangeGoalStatus(true);
+        GetTile(3, 3).ChangePlaceable2(true);
+        //GetTile(3, 4).ChangePlaceable(true);
         // set places to be goals specifically for level one
 
     }
-    public static void Occupy(int x, int y)
+    public void Occupy(int x, int y)
     {
         //potentially add crashing method call if it fails to add anything
         for (int i = unoccupied.Count - 1; i >= 0; i--)
@@ -51,7 +59,7 @@ public class MapCreator : MonoBehaviour
             }
         }
     }
-    public static void Unoccupy(int x, int y)
+    public void Unoccupy(int x, int y)
     {
         for (int i = occupied.Count - 1; i >= 0; i--)
         {
@@ -63,7 +71,7 @@ public class MapCreator : MonoBehaviour
             }
         }
     }
-    public static bool IsOccupied(int x, int y)
+    public bool IsOccupied(int x, int y)
     {
         for (int i = 0; i < occupied.Count; i++)
         {
@@ -83,7 +91,7 @@ public class MapCreator : MonoBehaviour
         }
         return true;
     }
-    public static Tile GetTile(int x, int y)
+    public Tile GetTile(int x, int y)
     {
         for (int i = 0; i < occupied.Count; i++)
         {

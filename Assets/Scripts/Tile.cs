@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Tile : MonoBehaviour
 {
     private int x = -1;
@@ -15,28 +15,44 @@ public class Tile : MonoBehaviour
     {
         return isGoal;
     }
+    public void ChangePlaceable(bool a)
+    {
+        canPlace = a;
+        if (canPlace)
+        {
+            Debug.Log("yeppers"); //why do you not work? why? why? why don't you change the color to green?
+            GetComponent<SpriteRenderer>().material.SetColor("_Color,", Color.green);
+        }
+    }
+    public void ChangePlaceable2(bool a)
+    {
+        canPlace = a; // spent 2 hours debugging this, then wrote the exact same function again and it worked this time. I love unity.
+        if (canPlace)
+        {
+            GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.red);
+        }
+    }
     public void ChangeGoalStatus(bool a)
     {
         isGoal = a;
         if (isGoal)
         {
             GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.green);
+            //StartCoroutine(DelayBecauseUnityIsDumb());
         }
 
+    }
+    IEnumerator DelayBecauseUnityIsDumb()
+    {
+        yield return new WaitForSeconds(0.2f);
+        //GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.green);
     }
     public bool IsPlaceable()
     {
         return canPlace;
-        
+
     }
-    public void ChangePlaceable(bool a)
-    {
-        canPlace = a;
-        if (canPlace)
-        {
-            GetComponent<SpriteRenderer>().material.SetColor("_Color,", Color.grey);
-        }
-    }
+    
 
     public bool GetOccupied()
     {

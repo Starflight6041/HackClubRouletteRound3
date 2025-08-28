@@ -12,9 +12,9 @@ using UnityEngine.Rendering.Universal;
 public class GameManagement : MonoBehaviour
 {
     public InputAction mousePos;
-    private static bool levelDone;
+    private bool levelDone;
     public GameObject gameOverCanvas;
-    private static bool levelFailed;
+    private bool levelFed;
     public MapCreator map;
     PointerEventData m_PointerEventData;
     public InputAction click;
@@ -31,8 +31,8 @@ public class GameManagement : MonoBehaviour
     void Start()
     {
         levelDone = false;
-        levelFailed = false;
-        gameOverCanvas.gameObject.SetActive(false);
+        levelFed = false;
+        gameOverCanvas.SetActive(true);
         mousePos = InputSystem.actions.FindAction("Point");
         e = RunPuzzle();
         click = InputSystem.actions.FindAction("Click");
@@ -54,7 +54,7 @@ public class GameManagement : MonoBehaviour
 
                     switch (result.gameObject.tag)
                     {
-
+                        
                         case "racecar":
                             //Debug.Log("Racecar");
                             if (racecar.GetComponent<Racecar>().GetCarAmount() > 0)
@@ -88,13 +88,13 @@ public class GameManagement : MonoBehaviour
                         Tile t = hit.collider.gameObject.GetComponent<Tile>();
                         if (toBePlaced)
                         {
-                            if (!t.GetOccupied() && toBePlaced.GetComponent<Car>().GetCarAmount() > 0)
+                            if (!t.GetOccupied() && t.IsPlaceable() && toBePlaced.GetComponent<Car>().GetCarAmount() > 0)
                             {
                                 GameObject g = Instantiate(toBePlaced);
                                 g.GetComponent<Car>().SetX(t.GetX());
                                 g.GetComponent<Car>().SetY(t.GetY());
                                 g.transform.position = MapCreator.GetPos(t.GetX(), t.GetY());
-                                MapCreator.Occupy(t.GetX(), t.GetY());
+                                map.Occupy(t.GetX(), t.GetY());
                                 toBePlaced.GetComponent<Car>().ReduceOneCar();
 //                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
                                 aCanvas.gameObject.SetActive(true);
@@ -114,15 +114,20 @@ public class GameManagement : MonoBehaviour
        
        
     }
-    public static bool StillRunning()
+    public bool StillRunning()
     {
-        return !levelDone && !levelFailed;
+        return !levelDone && !levelFed;
     }
     public void FailLevel()
     {
-        levelFailed = true;
-        gameOverCanvas.gameObject.SetActive(true);
+
+        Debug.Log("setting");
+        gameOverCanvas.SetActive(true);
+        levelFed = true;
+        
+        
     }
+    
     IEnumerator RunPuzzle()
     {
         //float startingTime;
@@ -161,6 +166,17 @@ public class GameManagement : MonoBehaviour
             //Debug.Log("yep");
         }
         
+    }
+    public void OnRotate()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePos.ReadValue<Vector2>()), Vector2.zero);
+        if (hit.collider)
+        {
+            if (hit.collider.gameObject.GetComponent<Car>())
+            {
+                hit.collider.gameObject.GetComponent<Car>().Rotate();
+            }
+        }
     }
     
 

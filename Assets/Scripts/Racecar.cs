@@ -13,7 +13,7 @@ public class Racecar : Car
     }
     public override IEnumerator Move()
     {
-        while (GameManagement.StillRunning() && !isAtDestination)
+        while (gameManager.StillRunning() && !isAtDestination)
         {
             MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
             yield return new WaitForSeconds(coroutineLength);
