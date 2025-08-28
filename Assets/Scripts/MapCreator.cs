@@ -13,6 +13,7 @@ public class MapCreator : MonoBehaviour
     
     public List<Tile> occupied = new List<Tile>();
     public List<Tile> unoccupied = new List<Tile>();
+    public List<Vector2> intersections = new List<Vector2>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,6 +43,7 @@ public class MapCreator : MonoBehaviour
 
         GetTile(6, 5).ChangeGoalStatus(true);
         GetTile(3, 3).ChangePlaceable2(true);
+        GetTile(4, 3).ChangePlaceable2(true);
         //GetTile(3, 4).ChangePlaceable(true);
         // set places to be goals specifically for level one
 
@@ -53,11 +55,33 @@ public class MapCreator : MonoBehaviour
         {
             if (unoccupied[i].GetX() == x && unoccupied[i].GetY() == y)
             {
-                unoccupied[i].ChangeOccupied(true);
+                unoccupied[i].AddOccupied();
                 occupied.Add(unoccupied[i]);
                 unoccupied.RemoveAt(i);
             }
         }
+    }
+    public void AddIntersectionToList(Vector2 a)
+    {
+        intersections.Add(a);
+    }
+    public void RemoveIntersectionFromList(Vector2 a)
+    {
+        intersections.Remove(a);
+    }
+    public bool IsOverlappingIntersection()
+    {
+        for (int i = 0; i < intersections.Count - 1; i++) //ooooh sick -1 for increased time efficiency so we don't have to check the last one!!!
+        {
+            for (int a = i + 1; a < intersections.Count; a++)
+            {
+                if (intersections[i] == intersections[a])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public void Unoccupy(int x, int y)
     {
@@ -65,7 +89,7 @@ public class MapCreator : MonoBehaviour
         {
             if (occupied[i].GetX() == x && occupied[i].GetY() == y)
             {
-                occupied[i].ChangeOccupied(false);
+                occupied[i].RemoveOccupied();
                 unoccupied.Add(occupied[i]);
                 occupied.RemoveAt(i);
             }
@@ -112,6 +136,7 @@ public class MapCreator : MonoBehaviour
         }
         return null;
     }
+    
     public static Vector2 GetPos(int x, int y)
     {
         return new Vector2(x * 1.2f - 6, y * 1.2f - 4);

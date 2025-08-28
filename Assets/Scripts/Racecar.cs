@@ -17,6 +17,20 @@ public class Racecar : Car
         {
             MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
             yield return new WaitForSeconds(coroutineLength);
+            if (map.GetTile(x, y))
+            {
+                if (map.GetTile(x, y).GetOccupiedAmount() > 1)
+                {
+                    gameManager.FailLevel();
+                }
+
+            }
+            else
+            {
+                gameManager.FailLevel();
+            }
+            map.RemoveIntersectionFromList(intersection);
+            yield return new WaitForSeconds(0.001f);
             //MoveToTile(x, y + 1);
             //yield return new WaitForSeconds(coroutineLength);
         }

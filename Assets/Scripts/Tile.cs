@@ -7,9 +7,16 @@ public class Tile : MonoBehaviour
     private bool isOccupied = false;
     private bool isGoal = false;
     private bool canPlace = false;
-    public void ChangeOccupied(bool a)
+    private int amountOccupied = 0;
+    public void AddOccupied()
     {
-        isOccupied = a;
+        isOccupied = true;
+        amountOccupied += 1;
+    }
+    public void RemoveOccupied()
+    {
+        isOccupied = false;
+        amountOccupied -= 1;
     }
     public bool IsGoal()
     {
@@ -51,6 +58,10 @@ public class Tile : MonoBehaviour
     {
         return canPlace;
 
+    }
+    public int GetOccupiedAmount()
+    {
+        return amountOccupied;
     }
     
 

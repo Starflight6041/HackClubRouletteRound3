@@ -16,12 +16,15 @@ public class Car : MonoBehaviour
     private float rotation; 
     public float coroutineLength;
     private bool atGoal = false;
+    public Vector2 intersection;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rotation = 0;
+        xOrientation = 0;
+        yOrientation = 1;
         //Debug.Log(GameObject.Find("GameOverCanvas"));
 
         pastLocation = MapCreator.GetPos(x, y);
@@ -52,21 +55,24 @@ public class Car : MonoBehaviour
     }
     public void Rotate()
     {
+        xOrientation = 0;
+        yOrientation = 0;
         rotation = (rotation + 90);
         transform.rotation = Quaternion.Euler(0, 0, rotation);
-        if (rotation % 360 <= 180)
+        if (rotation % 360 == 270 || rotation % 360 == -90)
         {
-            xOrientation = (int)(rotation % 180) / -90;
+            xOrientation = 1;
+            
         }
-        else
+        else if (rotation % 360 == 90 || rotation % 360 == -270)
         {
-            xOrientation = (int)(rotation % 180) / 90;
+            xOrientation = -1;
         }
-        if (rotation % 360 == 0)
+        else if (rotation % 360 == 0)
         {
             yOrientation = 1;
         }
-        if (Mathf.Abs(rotation) % 360 == 180)
+        else if (Mathf.Abs(rotation) % 360 == 180)
         {
             yOrientation = -1; // if I was going to do this why didn't I just do this from the start instead of division lmfao
         }
@@ -74,8 +80,11 @@ public class Car : MonoBehaviour
     }
     public void MoveToTile(int a, int b)
     {
-        if (!map.IsOccupied(a, b))
+        intersection = new Vector2(x + (float) (a - x) / 2, y + (float) (b - y) / 2);
+        map.AddIntersectionToList(intersection);
+        if (!map.IsOverlappingIntersection()) //used to be other condition
         {
+
             map.Unoccupy(x, y);
             map.Occupy(a, b);
             pastLocation = MapCreator.GetPos(x, y);
@@ -84,10 +93,14 @@ public class Car : MonoBehaviour
             y = b;
             StartCoroutine(gameManager.MoveCar(this, Time.time));
             Debug.Log(map.GetTile(a, b));
-            if (map.GetTile(a, b).IsGoal())
+            if (map.GetTile(a, b))
             {
-                ChangeDestinationStatus(true);
-                Debug.Log("I'm here!");
+                if (map.GetTile(a, b).IsGoal())
+                {
+                    ChangeDestinationStatus(true);
+                    Debug.Log("I'm here!");
+                }
+
             }
             //Debug.Log("yep function call");
 
@@ -97,6 +110,7 @@ public class Car : MonoBehaviour
 
             pastLocation = MapCreator.GetPos(x, y);
             prospectiveLocation = MapCreator.GetPos(a, b);
+            Debug.Log(intersection);
             x = a;
             y = b;
             StartCoroutine(gameManager.MoveCar(this, Time.time));
@@ -129,6 +143,7 @@ public class Car : MonoBehaviour
     {
 
     }
+    
     public virtual IEnumerator Move()
     {
         return null;
