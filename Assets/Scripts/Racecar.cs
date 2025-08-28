@@ -4,14 +4,16 @@ using System.Collections;
 public class Racecar : Car
 {
     public static int numCars = 5;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         coroutineLength = .5f;
+        isAtDestination = false;
     }
     public override IEnumerator Move()
     {
-        while (GameManagement.StillRunning())
+        while (GameManagement.StillRunning() && !isAtDestination)
         {
             MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
             yield return new WaitForSeconds(coroutineLength);
@@ -22,6 +24,7 @@ public class Racecar : Car
         //MoveToTile(x, y + 1);
 //      Debug.Log("yes");
     }
+    
 
     public override int GetCarAmount()
     {
@@ -30,7 +33,7 @@ public class Racecar : Car
     public override void ReduceOneCar()
     {
         numCars -= 1;
-        Debug.Log("mettaton oh yes");
+//        Debug.Log("mettaton oh yes");
     }
     public override void IncrementOneCar()
     {

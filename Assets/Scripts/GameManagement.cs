@@ -56,7 +56,7 @@ public class GameManagement : MonoBehaviour
                     {
 
                         case "racecar":
-                            Debug.Log("Racecar");
+                            //Debug.Log("Racecar");
                             if (racecar.GetComponent<Racecar>().GetCarAmount() > 0)
                             {
                                 toBePlaced = racecar;
@@ -96,7 +96,7 @@ public class GameManagement : MonoBehaviour
                                 g.transform.position = MapCreator.GetPos(t.GetX(), t.GetY());
                                 MapCreator.Occupy(t.GetX(), t.GetY());
                                 toBePlaced.GetComponent<Car>().ReduceOneCar();
-                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
+//                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
                                 aCanvas.gameObject.SetActive(true);
                                 carsPlaced.Add(g.GetComponent<Racecar>());
                                 toBePlaced = null;
@@ -152,7 +152,7 @@ public class GameManagement : MonoBehaviour
     }
     public IEnumerator MoveCar(Car c, float t)
     {
-        Debug.Log("yep");
+//        Debug.Log("yep");
         while ((Vector2)c.gameObject.transform.position != c.GetProspectiveLocation())
         {
             c.gameObject.transform.position = new Vector2(Mathf.Lerp(c.GetPastLocation().x, c.GetProspectiveLocation().x, (Time.time - t) * 2.1f), Mathf.Lerp(c.GetPastLocation().y, c.GetProspectiveLocation().y, (Time.time - t) * 2.1f));

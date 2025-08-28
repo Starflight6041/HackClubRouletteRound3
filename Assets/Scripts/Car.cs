@@ -10,7 +10,9 @@ public class Car : MonoBehaviour
     public int yOrientation; // 1 is up, -1 is down
     private Vector2 prospectiveLocation;
     private Vector2 pastLocation;
+    public bool isAtDestination;
     public GameManagement gameManager;
+    public MapCreator map;
     public float coroutineLength;
     private bool atGoal = false;
 
@@ -21,6 +23,10 @@ public class Car : MonoBehaviour
         Debug.Log(GameObject.Find("GameOverCanvas"));
         
         pastLocation = MapCreator.GetPos(x, y);
+    }
+    public void ChangeDestinationStatus(bool a)
+    {
+        isAtDestination = a;
     }
     public virtual int GetCarAmount()
     {
@@ -53,6 +59,12 @@ public class Car : MonoBehaviour
             x = a;
             y = b;
             StartCoroutine(gameManager.MoveCar(this, Time.time));
+            Debug.Log(MapCreator.GetTile(a, b));
+            if (MapCreator.GetTile(a, b).IsGoal())
+            {
+                ChangeDestinationStatus(true);
+                Debug.Log("I'm here!");
+            }
             //Debug.Log("yep function call");
 
         }

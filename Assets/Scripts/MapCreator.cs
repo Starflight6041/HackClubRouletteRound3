@@ -14,8 +14,8 @@ public class MapCreator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-        
+
+
 
         for (int x = 0; x < 11; x++)
         {
@@ -25,10 +25,18 @@ public class MapCreator : MonoBehaviour
                 Tile b = a.GetComponent<Tile>();
                 b.ChangeX(x);
                 b.ChangeY(y);
+                b.ChangeGoalStatus(false);
                 unoccupied.Add(b.GetComponent<Tile>());
 
             }
         }
+        SetLevelOneGoals();
+    }
+    public void SetLevelOneGoals()
+    {
+        GetTile(5, 5).ChangeGoalStatus(true);
+        // set places to be goals specifically for level one
+
     }
     public static void Occupy(int x, int y)
     {
@@ -74,6 +82,27 @@ public class MapCreator : MonoBehaviour
             
         }
         return true;
+    }
+    public static Tile GetTile(int x, int y)
+    {
+        for (int i = 0; i < occupied.Count; i++)
+        {
+            if (occupied[i].GetX() == x && occupied[i].GetY() == y)
+            {
+                return occupied[i];
+            }
+
+        }
+        for (int i = 0; i < unoccupied.Count; i++)
+        {
+            if (unoccupied[i].GetX() == x && unoccupied[i].GetY() == y)
+            {
+                return unoccupied[i];
+            }
+
+
+        }
+        return null;
     }
     public static Vector2 GetPos(int x, int y)
     {
