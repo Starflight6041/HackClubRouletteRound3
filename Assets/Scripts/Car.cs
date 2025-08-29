@@ -29,6 +29,18 @@ public class Car : MonoBehaviour
 
         pastLocation = MapCreator.GetPos(x, y);
     }
+    public int GetX()
+    {
+        return x;
+    }
+    public int GetY()
+    {
+        return y;
+    }
+    public virtual void SetCarAmount(int a)
+    {
+
+    }
     public void ChangeDestinationStatus(bool a)
     {
         isAtDestination = a;

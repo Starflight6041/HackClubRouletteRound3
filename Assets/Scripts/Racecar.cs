@@ -11,6 +11,10 @@ public class Racecar : Car
         coroutineLength = .5f;
         isAtDestination = false;
     }
+    public override void SetCarAmount(int a)
+    {
+        numCars = a;
+    }
     public override IEnumerator Move()
     {
         while (gameManager.StillRunning() && !isAtDestination)
@@ -34,9 +38,9 @@ public class Racecar : Car
             //MoveToTile(x, y + 1);
             //yield return new WaitForSeconds(coroutineLength);
         }
-        
+
         //MoveToTile(x, y + 1);
-//      Debug.Log("yes");
+        //      Debug.Log("yes");
     }
     
 
@@ -47,6 +51,7 @@ public class Racecar : Car
     public override void ReduceOneCar()
     {
         numCars -= 1;
+        Debug.Log(numCars);
 //        Debug.Log("mettaton oh yes");
     }
     public override void IncrementOneCar()

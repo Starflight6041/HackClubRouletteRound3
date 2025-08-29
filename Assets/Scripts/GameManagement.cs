@@ -56,6 +56,25 @@ public class GameManagement : MonoBehaviour
         }
         
     }
+    private void OnCancelAction()
+    {
+        if (!aCanvas.isActiveAndEnabled)
+        {
+            aCanvas.gameObject.SetActive(true);
+        }
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePos.ReadValue<Vector2>()), Vector2.zero);
+        if (hit.collider)
+        {
+            if (hit.collider.gameObject.GetComponent<Car>())
+            {
+                GameObject carhit = hit.collider.gameObject;
+                carhit.GetComponent<Car>().IncrementOneCar();
+                carsPlaced.Remove(carhit.GetComponent<Car>());
+                map.Unoccupy(carhit.GetComponent<Car>().GetX(), carhit.GetComponent<Car>().GetY());
+                Destroy(carhit);
+            }
+        }
+    }
     private void OnClick()
     {
         if (click.WasPressedThisFrame())
@@ -93,6 +112,10 @@ public class GameManagement : MonoBehaviour
                     }
                     if (result.gameObject.tag == "start")
                     {
+                        if (carsPlaced.Count == 0)
+                        {
+                            FailLevel();
+                        }
                         StartCoroutine(e);
                     }
 

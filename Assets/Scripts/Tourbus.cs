@@ -9,6 +9,10 @@ public class Tourbus : Car
         coroutineLength = .5f;
         isAtDestination = false;
     }
+    public override void SetCarAmount(int a)
+    {
+        numCars = a;
+    }
     public override IEnumerator Move()
     {
         while (gameManager.StillRunning() && !isAtDestination)
@@ -29,7 +33,7 @@ public class Tourbus : Car
             }
             map.RemoveIntersectionFromList(intersection);
             yield return new WaitForSeconds(0.001f);
-            if (!isAtDestination)
+            if (!isAtDestination && gameManager.StillRunning())
             {
                 MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
                 yield return new WaitForSeconds(coroutineLength);
@@ -49,7 +53,7 @@ public class Tourbus : Car
                 yield return new WaitForSeconds(0.001f);
             }
 
-            if (!isAtDestination)
+            if (!isAtDestination && gameManager.StillRunning())
             {
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.right;
                 Debug.Log(modified.y);
@@ -70,11 +74,11 @@ public class Tourbus : Car
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
-            if (!isAtDestination)
+            if (!isAtDestination && gameManager.StillRunning())
             {
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.down;
                 Debug.Log(modified.y);
-                MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int) Mathf.RoundToInt(modified.y));
+                MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
                 yield return new WaitForSeconds(coroutineLength);
                 if (map.GetTile(x, y))
                 {
@@ -91,13 +95,13 @@ public class Tourbus : Car
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
-            
+
             //MoveToTile(x, y + 1);
             //yield return new WaitForSeconds(coroutineLength);
         }
-        
+
         //MoveToTile(x, y + 1);
-//      Debug.Log("yes");
+        //      Debug.Log("yes");
     }
     
 
