@@ -13,7 +13,9 @@ public class MapCreator : MonoBehaviour
     
     public List<Tile> occupied = new List<Tile>();
     public List<Tile> unoccupied = new List<Tile>();
+    //public GameManagement gameManager;
     public List<Vector2> intersections = new List<Vector2>();
+    public LevelSetup levelSetup;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,18 +38,9 @@ public class MapCreator : MonoBehaviour
             }
         }
         
-        SetLevelOneGoals();
+        levelSetup.SetLevelGoals();
     }
-    public void SetLevelOneGoals()
-    {
-
-        GetTile(6, 5).ChangeGoalStatus(true);
-        GetTile(3, 3).ChangePlaceable2(true);
-        GetTile(4, 3).ChangePlaceable2(true);
-        //GetTile(3, 4).ChangePlaceable(true);
-        // set places to be goals specifically for level one
-
-    }
+    
     public void Occupy(int x, int y)
     {
         //potentially add crashing method call if it fails to add anything

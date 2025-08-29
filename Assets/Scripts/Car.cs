@@ -13,7 +13,7 @@ public class Car : MonoBehaviour
     public bool isAtDestination;
     public GameManagement gameManager;
     public MapCreator map;
-    private float rotation; 
+    public float rotation; 
     public float coroutineLength;
     private bool atGoal = false;
     public Vector2 intersection;
@@ -98,6 +98,7 @@ public class Car : MonoBehaviour
                 if (map.GetTile(a, b).IsGoal())
                 {
                     ChangeDestinationStatus(true);
+                    gameManager.IncrementGoals();
                     Debug.Log("I'm here!");
                 }
 
@@ -137,6 +138,10 @@ public class Car : MonoBehaviour
     public virtual void IncrementOneCar()
     {
 
+    }
+    public float GetRotation()
+    {
+        return rotation;
     }
     // Update is called once per frame
     void Update()

@@ -1,0 +1,122 @@
+using UnityEngine;
+using System.Collections;
+public class Tourbus : Car
+{
+    public static int numCars = 5;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        coroutineLength = .5f;
+        isAtDestination = false;
+    }
+    public override IEnumerator Move()
+    {
+        while (gameManager.StillRunning() && !isAtDestination)
+        {
+            MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
+            yield return new WaitForSeconds(coroutineLength);
+            if (map.GetTile(x, y))
+            {
+                if (map.GetTile(x, y).GetOccupiedAmount() > 1)
+                {
+                    gameManager.FailLevel();
+                }
+
+            }
+            else
+            {
+                gameManager.FailLevel();
+            }
+            map.RemoveIntersectionFromList(intersection);
+            yield return new WaitForSeconds(0.001f);
+            if (!isAtDestination)
+            {
+                MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
+                yield return new WaitForSeconds(coroutineLength);
+                if (map.GetTile(x, y))
+                {
+                    if (map.GetTile(x, y).GetOccupiedAmount() > 1)
+                    {
+                        gameManager.FailLevel();
+                    }
+
+                }
+                else
+                {
+                    gameManager.FailLevel();
+                }
+                map.RemoveIntersectionFromList(intersection);
+                yield return new WaitForSeconds(0.001f);
+            }
+
+            if (!isAtDestination)
+            {
+                Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.right;
+                Debug.Log(modified.y);
+                MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
+                yield return new WaitForSeconds(coroutineLength);
+                if (map.GetTile(x, y))
+                {
+                    if (map.GetTile(x, y).GetOccupiedAmount() > 1)
+                    {
+                        gameManager.FailLevel();
+                    }
+
+                }
+                else
+                {
+                    gameManager.FailLevel();
+                }
+                map.RemoveIntersectionFromList(intersection);
+                yield return new WaitForSeconds(0.001f);
+            }
+            if (!isAtDestination)
+            {
+                Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.down;
+                Debug.Log(modified.y);
+                MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int) Mathf.RoundToInt(modified.y));
+                yield return new WaitForSeconds(coroutineLength);
+                if (map.GetTile(x, y))
+                {
+                    if (map.GetTile(x, y).GetOccupiedAmount() > 1)
+                    {
+                        gameManager.FailLevel();
+                    }
+
+                }
+                else
+                {
+                    gameManager.FailLevel();
+                }
+                map.RemoveIntersectionFromList(intersection);
+                yield return new WaitForSeconds(0.001f);
+            }
+            
+            //MoveToTile(x, y + 1);
+            //yield return new WaitForSeconds(coroutineLength);
+        }
+        
+        //MoveToTile(x, y + 1);
+//      Debug.Log("yes");
+    }
+    
+
+    public override int GetCarAmount()
+    {
+        return numCars;
+    }
+    public override void ReduceOneCar()
+    {
+        numCars -= 1;
+//        Debug.Log("mettaton oh yes");
+    }
+    public override void IncrementOneCar()
+    {
+        numCars += 1;
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

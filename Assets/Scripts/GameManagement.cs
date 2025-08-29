@@ -14,6 +14,7 @@ public class GameManagement : MonoBehaviour
     public InputAction mousePos;
     private bool levelDone;
     public GameObject gameOverCanvas;
+    public GameObject tourbus;
     private bool levelFed;
     public MapCreator map;
     PointerEventData m_PointerEventData;
@@ -26,16 +27,34 @@ public class GameManagement : MonoBehaviour
     private GameObject toBePlaced;
     private IEnumerator e;
     public Canvas aCanvas;
+    public int numGoals;
+    public int goalsReached = 0;
+    public Canvas gameWinCanvas;
     //public int racecarCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         levelDone = false;
         levelFed = false;
+        gameWinCanvas.gameObject.SetActive(false);
         gameOverCanvas.SetActive(true);
         mousePos = InputSystem.actions.FindAction("Point");
         e = RunPuzzle();
         click = InputSystem.actions.FindAction("Click");
+    }
+    public void SetGoalAmount(int a)
+    {
+        numGoals = a;
+    }
+    public void IncrementGoals()
+    {
+        goalsReached++;
+        if (goalsReached == numGoals)
+        {
+            gameWinCanvas.gameObject.SetActive(true);
+            levelDone = true;
+        }
+        
     }
     private void OnClick()
     {
@@ -54,12 +73,20 @@ public class GameManagement : MonoBehaviour
 
                     switch (result.gameObject.tag)
                     {
-                        
+
                         case "racecar":
                             //Debug.Log("Racecar");
                             if (racecar.GetComponent<Racecar>().GetCarAmount() > 0)
                             {
                                 toBePlaced = racecar;
+                            }
+
+                            break;
+                        case "tourbus":
+                            //Debug.Log("Racecar");
+                            if (tourbus.GetComponent<Tourbus>().GetCarAmount() > 0)
+                            {
+                                toBePlaced = tourbus;
                             }
 
                             break;
@@ -96,11 +123,11 @@ public class GameManagement : MonoBehaviour
                                 g.transform.position = MapCreator.GetPos(t.GetX(), t.GetY());
                                 map.Occupy(t.GetX(), t.GetY());
                                 toBePlaced.GetComponent<Car>().ReduceOneCar();
-//                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
+                                //                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
                                 aCanvas.gameObject.SetActive(true);
-                                carsPlaced.Add(g.GetComponent<Racecar>());
+                                carsPlaced.Add(g.GetComponent<Car>());
                                 toBePlaced = null;
-                                
+
                             }
                         }
                     }
@@ -111,8 +138,8 @@ public class GameManagement : MonoBehaviour
 
 
         }
-       
-       
+
+
     }
     public bool StillRunning()
     {
@@ -121,7 +148,7 @@ public class GameManagement : MonoBehaviour
     public void FailLevel()
     {
 
-        Debug.Log("setting");
+//        Debug.Log("setting");
         gameOverCanvas.SetActive(true);
         levelFed = true;
         
