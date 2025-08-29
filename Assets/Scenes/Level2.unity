@@ -420,6 +420,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddabb8e8cbbcd04d898c861eb747130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 305806173}
+  mapCreator: {fileID: 305806172}
+  racecar: {fileID: 625119834}
+  tourbus: {fileID: 1672817632}
 --- !u!1 &504368396
 GameObject:
   m_ObjectHideFlags: 0
