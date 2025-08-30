@@ -10,6 +10,7 @@ public class Car : MonoBehaviour
     public int xOrientation; // 1 is right, -1 is left
     public int yOrientation; // 1 is up, -1 is down
     private Vector2 prospectiveLocation;
+    public bool isPlayerPlaced;
     private Vector2 pastLocation;
     public TMP_Text amountText;
     public bool isAtDestination;
@@ -30,6 +31,14 @@ public class Car : MonoBehaviour
         //Debug.Log(GameObject.Find("GameOverCanvas"));
 
         pastLocation = MapCreator.GetPos(x, y);
+    }
+    public void SetPlayerPlaced(bool a)
+    {
+        isPlayerPlaced = a;
+    }
+    public bool GetPlayerPlaced()
+    {
+        return isPlayerPlaced;
     }
     public int GetX()
     {
@@ -153,6 +162,11 @@ public class Car : MonoBehaviour
     public virtual void IncrementOneCar()
     {
 
+    }
+    public void SetRotation(float r)
+    {
+        rotation = r;
+        transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
     public float GetRotation()
     {

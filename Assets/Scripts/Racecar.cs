@@ -21,7 +21,11 @@ public class Racecar : Car
     {
         while (gameManager.StillRunning() && !isAtDestination)
         {
-            MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
+            //MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
+            Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.up;
+            transform.rotation = Quaternion.Euler(0, 0, rotation);
+            Debug.Log(modified.y);
+            MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
             yield return new WaitForSeconds(coroutineLength);
             if (map.GetTile(x, y))
             {

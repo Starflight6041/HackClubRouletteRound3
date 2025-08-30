@@ -29,7 +29,8 @@ public class Level2Setup : LevelSetup
         //mapCreator.GetTile(2, 3).ChangePlaceable2(true);
         //mapCreator.GetTile(2, 4).ChangePlaceable2(true);
         //mapCreator.GetTile(2, 5).ChangePlaceable2(true);
-
+        
+        
         racecar.SetCarAmount(1);
         tourbus.SetCarAmount(1);
         gameManager.SetGoalAmount(2);

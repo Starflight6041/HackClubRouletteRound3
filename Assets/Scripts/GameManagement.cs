@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Runtime.CompilerServices;
 using UnityEngine.Rendering.Universal;
+using System;
 
 public class GameManagement : MonoBehaviour
 {
@@ -144,6 +145,7 @@ public class GameManagement : MonoBehaviour
                                 g.GetComponent<Car>().SetX(t.GetX());
                                 g.GetComponent<Car>().SetY(t.GetY());
                                 g.transform.position = MapCreator.GetPos(t.GetX(), t.GetY());
+                                g.GetComponent<Car>().SetPlayerPlaced(true);
                                 map.Occupy(t.GetX(), t.GetY());
                                 toBePlaced.GetComponent<Car>().ReduceOneCar();
                                 //                                Debug.Log(toBePlaced.GetComponent<Car>().GetCarAmount());
@@ -163,6 +165,24 @@ public class GameManagement : MonoBehaviour
         }
 
 
+    }
+    public void PlaceMapCar(int x, int y, String s, float r)
+    {
+        switch (s)
+        {
+            case "racecar":
+                GameObject g = Instantiate(racecar);
+                g.GetComponent<Car>().SetX(x);
+                g.GetComponent<Car>().SetY(y);
+                g.transform.position = MapCreator.GetPos(x, y);
+                g.GetComponent<Car>().SetPlayerPlaced(false);
+                g.GetComponent<Car>().SetRotation(r);
+                map.Occupy(x, y);
+                carsPlaced.Add(g.GetComponent<Car>());
+                break; 
+
+            
+        }
     }
     public bool StillRunning()
     {
@@ -224,7 +244,11 @@ public class GameManagement : MonoBehaviour
         {
             if (hit.collider.gameObject.GetComponent<Car>())
             {
-                hit.collider.gameObject.GetComponent<Car>().Rotate();
+                if (hit.collider.gameObject.GetComponent<Car>().GetPlayerPlaced())
+                {
+                    hit.collider.gameObject.GetComponent<Car>().Rotate();
+                }
+                
             }
         }
     }
