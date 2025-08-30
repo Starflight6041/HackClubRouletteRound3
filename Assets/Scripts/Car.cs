@@ -2,6 +2,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using TMPro;
 public class Car : MonoBehaviour
 {
     public int x;
@@ -10,6 +11,7 @@ public class Car : MonoBehaviour
     public int yOrientation; // 1 is up, -1 is down
     private Vector2 prospectiveLocation;
     private Vector2 pastLocation;
+    public TMP_Text amountText;
     public bool isAtDestination;
     public GameManagement gameManager;
     public MapCreator map;
@@ -111,6 +113,7 @@ public class Car : MonoBehaviour
                 {
                     ChangeDestinationStatus(true);
                     gameManager.IncrementGoals();
+                    map.GetTile(a, b).PlayAnimation();
                     Debug.Log("I'm here!");
                 }
 

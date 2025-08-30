@@ -1,15 +1,17 @@
 using Unity.Collections;
 using UnityEngine;
 using System.Collections;
+using System;
 public class Racecar : Car
 {
     public static int numCars = 5;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         coroutineLength = .5f;
         isAtDestination = false;
+        amountText.text = numCars.ToString();
     }
     public override void SetCarAmount(int a)
     {
@@ -51,12 +53,14 @@ public class Racecar : Car
     public override void ReduceOneCar()
     {
         numCars -= 1;
-        Debug.Log(numCars);
+        amountText.text = numCars.ToString();
+        //Debug.Log(numCars);
 //        Debug.Log("mettaton oh yes");
     }
     public override void IncrementOneCar()
     {
         numCars += 1;
+        amountText.text = numCars.ToString();
     }
     // Update is called once per frame
     void Update()

@@ -6,8 +6,11 @@ public class Tile : MonoBehaviour
     private int y = -1;
     private bool isOccupied = false;
     private bool isGoal = false;
+    public Sprite goalSprite;
     private bool canPlace = false;
+    public Sprite initialSprite;
     private int amountOccupied = 0;
+    public Animator animator;
     public void AddOccupied()
     {
         isOccupied = true;
@@ -22,6 +25,7 @@ public class Tile : MonoBehaviour
     {
         return isGoal;
     }
+
     public void ChangePlaceable(bool a)
     {
         canPlace = a;
@@ -45,9 +49,17 @@ public class Tile : MonoBehaviour
         if (isGoal)
         {
             GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.green);
+            GetComponent<SpriteRenderer>().sprite = goalSprite;
+            //animator.enabled = true;
+            //animator.Play("Goal");
+            Debug.Log("yeppers");
             //StartCoroutine(DelayBecauseUnityIsDumb());
         }
 
+    }
+    public void PlayAnimation()
+    {
+        animator.Play("Goal");
     }
     IEnumerator DelayBecauseUnityIsDumb()
     {
@@ -88,7 +100,8 @@ public class Tile : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //animator.enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().sprite = initialSprite;
         //GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.red);
     }
 

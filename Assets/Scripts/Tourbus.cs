@@ -8,6 +8,7 @@ public class Tourbus : Car
     {
         coroutineLength = .5f;
         isAtDestination = false;
+        amountText.text = numCars.ToString();
     }
     public override void SetCarAmount(int a)
     {
@@ -56,6 +57,7 @@ public class Tourbus : Car
             if (!isAtDestination && gameManager.StillRunning())
             {
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.right;
+                transform.rotation = Quaternion.Euler(0, 0, rotation - 90);
                 Debug.Log(modified.y);
                 MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
                 yield return new WaitForSeconds(coroutineLength);
@@ -78,6 +80,7 @@ public class Tourbus : Car
             {
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.down;
                 Debug.Log(modified.y);
+                transform.rotation = Quaternion.Euler(0, 0, rotation - 180);
                 MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
                 yield return new WaitForSeconds(coroutineLength);
                 if (map.GetTile(x, y))
@@ -94,6 +97,7 @@ public class Tourbus : Car
                 }
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
+                transform.rotation = Quaternion.Euler(0, 0, rotation);
             }
 
             //MoveToTile(x, y + 1);
@@ -112,11 +116,13 @@ public class Tourbus : Car
     public override void ReduceOneCar()
     {
         numCars -= 1;
+        amountText.text = numCars.ToString();
 //        Debug.Log("mettaton oh yes");
     }
     public override void IncrementOneCar()
     {
         numCars += 1;
+        amountText.text = numCars.ToString();
     }
     // Update is called once per frame
     void Update()
