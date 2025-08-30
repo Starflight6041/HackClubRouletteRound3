@@ -44,7 +44,7 @@ public class Racecar : Car
             }
             
             yield return new WaitForSeconds(coroutineLength);
-            Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+            //Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
             map.RemoveIntersectionFromList(intersection);
             yield return new WaitForSeconds(0.001f);
             //MoveToTile(x, y + 1);
