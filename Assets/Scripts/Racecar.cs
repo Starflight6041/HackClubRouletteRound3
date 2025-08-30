@@ -24,11 +24,14 @@ public class Racecar : Car
             //MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
             Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.up;
             transform.rotation = Quaternion.Euler(0, 0, rotation);
-            Debug.Log(modified.y);
+            
             MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
-            yield return new WaitForSeconds(coroutineLength);
+            //Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+            
+            
             if (map.GetTile(x, y))
             {
+
                 if (map.GetTile(x, y).GetOccupiedAmount() > 1)
                 {
                     gameManager.FailLevel();
@@ -39,6 +42,9 @@ public class Racecar : Car
             {
                 gameManager.FailLevel();
             }
+            
+            yield return new WaitForSeconds(coroutineLength);
+            Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
             map.RemoveIntersectionFromList(intersection);
             yield return new WaitForSeconds(0.001f);
             //MoveToTile(x, y + 1);

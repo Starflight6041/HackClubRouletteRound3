@@ -41,10 +41,11 @@ public class MapCreator : MonoBehaviour
         
         levelSetup.SetLevelGoals();
     }
-    
-    
+
+
     public void Occupy(int x, int y)
     {
+        bool tileFound = false;
         //potentially add crashing method call if it fails to add anything
         for (int i = unoccupied.Count - 1; i >= 0; i--)
         {
@@ -53,8 +54,20 @@ public class MapCreator : MonoBehaviour
                 unoccupied[i].AddOccupied();
                 occupied.Add(unoccupied[i]);
                 unoccupied.RemoveAt(i);
+                tileFound = true;
             }
         }
+        if (!tileFound)
+        {
+            for (int i = occupied.Count - 1; i >= 0; i--)
+            {
+                if (occupied[i].GetX() == x && occupied[i].GetY() == y)
+                {
+                    occupied[i].AddOccupied();
+                }
+            }
+        }
+        
     }
     public void AddIntersectionToList(Vector2 a)
     {
@@ -80,6 +93,7 @@ public class MapCreator : MonoBehaviour
     }
     public void Unoccupy(int x, int y)
     {
+        bool tileFound = false;
         for (int i = occupied.Count - 1; i >= 0; i--)
         {
             if (occupied[i].GetX() == x && occupied[i].GetY() == y)
@@ -87,18 +101,32 @@ public class MapCreator : MonoBehaviour
                 occupied[i].RemoveOccupied();
                 unoccupied.Add(occupied[i]);
                 occupied.RemoveAt(i);
+                tileFound = true;
             }
         }
+        if (!tileFound)
+        {
+            for (int i = unoccupied.Count - 1; i >= 0; i--)
+            {
+                if (unoccupied[i].GetX() == x && unoccupied[i].GetY() == y)
+                {
+                    unoccupied[i].RemoveOccupied();
+
+                }
+            }
+        }
+        
     }
     public bool IsOccupied(int x, int y)
     {
+        
         for (int i = 0; i < occupied.Count; i++)
         {
             if (occupied[i].GetX() == x && occupied[i].GetY() == y)
             {
                 return true;
             }
-            
+
         }
         for (int i = 0; i < unoccupied.Count; i++)
         {

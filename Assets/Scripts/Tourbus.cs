@@ -21,9 +21,10 @@ public class Tourbus : Car
             //MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
             Vector2 modified1 = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.up;
             transform.rotation = Quaternion.Euler(0, 0, rotation);
-            Debug.Log(modified1.y);
+            
             MoveToTile(x + 1 * Mathf.RoundToInt(modified1.x), y + 1 * (int)Mathf.RoundToInt(modified1.y));
-            yield return new WaitForSeconds(coroutineLength);
+
+            
             if (map.GetTile(x, y))
             {
                 if (map.GetTile(x, y).GetOccupiedAmount() > 1)
@@ -36,6 +37,8 @@ public class Tourbus : Car
             {
                 gameManager.FailLevel();
             }
+            Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+            yield return new WaitForSeconds(coroutineLength);
             map.RemoveIntersectionFromList(intersection);
             yield return new WaitForSeconds(0.001f);
             if (!isAtDestination && gameManager.StillRunning())
@@ -43,9 +46,9 @@ public class Tourbus : Car
                 //MoveToTile(x + 1 * xOrientation, y + 1 * yOrientation);
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.up;
                 transform.rotation = Quaternion.Euler(0, 0, rotation);
-                Debug.Log(modified.y);
+//                Debug.Log(modified.y);
                 MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
-                yield return new WaitForSeconds(coroutineLength);
+                //yield return new WaitForSeconds(coroutineLength);
                 if (map.GetTile(x, y))
                 {
                     if (map.GetTile(x, y).GetOccupiedAmount() > 1)
@@ -58,6 +61,8 @@ public class Tourbus : Car
                 {
                     gameManager.FailLevel();
                 }
+                yield return new WaitForSeconds(coroutineLength);
+                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
@@ -66,9 +71,9 @@ public class Tourbus : Car
             {
                 Vector2 modified = Quaternion.RotateTowards(Quaternion.identity, Quaternion.Euler(0, 0, rotation), 360) * Vector2.right;
                 transform.rotation = Quaternion.Euler(0, 0, rotation - 90);
-                Debug.Log(modified.y);
+                //Debug.Log(modified.y);
                 MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
-                yield return new WaitForSeconds(coroutineLength);
+                //yield return new WaitForSeconds(coroutineLength);
                 if (map.GetTile(x, y))
                 {
                     if (map.GetTile(x, y).GetOccupiedAmount() > 1)
@@ -81,6 +86,8 @@ public class Tourbus : Car
                 {
                     gameManager.FailLevel();
                 }
+                yield return new WaitForSeconds(coroutineLength);
+                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
@@ -90,7 +97,7 @@ public class Tourbus : Car
                 Debug.Log(modified.y);
                 transform.rotation = Quaternion.Euler(0, 0, rotation - 180);
                 MoveToTile(x + 1 * Mathf.RoundToInt(modified.x), y + 1 * (int)Mathf.RoundToInt(modified.y));
-                yield return new WaitForSeconds(coroutineLength);
+                //yield return new WaitForSeconds(coroutineLength);
                 if (map.GetTile(x, y))
                 {
                     if (map.GetTile(x, y).GetOccupiedAmount() > 1)
@@ -103,6 +110,9 @@ public class Tourbus : Car
                 {
                     gameManager.FailLevel();
                 }
+                
+                yield return new WaitForSeconds(coroutineLength);
+                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
                 transform.rotation = Quaternion.Euler(0, 0, rotation);
