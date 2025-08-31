@@ -11,6 +11,9 @@ public class Tile : MonoBehaviour
     public Sprite initialSprite;
     private int amountOccupied = 0;
     public Animator animator;
+    public bool isRotator = false;
+    public float rotationAmount = 0;
+    public GameObject rotatorVisual;
     public void AddOccupied()
     {
         isOccupied = true;
@@ -20,6 +23,25 @@ public class Tile : MonoBehaviour
     {
         isOccupied = false;
         amountOccupied -= 1;
+    }
+    public bool Rotates()
+    {
+        return isRotator;
+    }
+    public float GetRotation()
+    {
+        return rotationAmount;
+    }
+    public void SetRotator(float f)
+    {
+        rotationAmount = f;
+        transform.rotation = Quaternion.Euler(0, 0, rotationAmount);
+        Debug.Log("wahooooooooo");
+        
+        
+        rotatorVisual.SetActive(true);
+        isRotator = true;
+        
     }
     public bool IsGoal()
     {
@@ -102,6 +124,7 @@ public class Tile : MonoBehaviour
     {
         //animator.enabled = false;
         gameObject.GetComponent<SpriteRenderer>().sprite = initialSprite;
+        //rotatorVisual.SetActive(false);
         //GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.red);
     }
 

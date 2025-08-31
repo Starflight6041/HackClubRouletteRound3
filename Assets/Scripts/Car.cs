@@ -125,6 +125,11 @@ public class Car : MonoBehaviour
                     map.GetTile(a, b).PlayAnimation();
                     Debug.Log("I'm here!");
                 }
+                if (map.GetTile(a, b).Rotates())
+                {
+                    rotation = map.GetTile(a, b).GetRotation();
+                    map.GetTile(a, b).SetRotator(map.GetTile(a, b).GetRotation() - 90);
+                }
 
             }
             //Debug.Log("yep function call");

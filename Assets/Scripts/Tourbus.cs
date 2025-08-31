@@ -62,7 +62,7 @@ public class Tourbus : Car
                     gameManager.FailLevel();
                 }
                 yield return new WaitForSeconds(coroutineLength);
-                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+                //Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
@@ -87,7 +87,7 @@ public class Tourbus : Car
                     gameManager.FailLevel();
                 }
                 yield return new WaitForSeconds(coroutineLength);
-                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+                //Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
             }
@@ -112,7 +112,7 @@ public class Tourbus : Car
                 }
                 
                 yield return new WaitForSeconds(coroutineLength);
-                Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
+                //Debug.Log(map.GetTile(x, y).GetOccupiedAmount());
                 map.RemoveIntersectionFromList(intersection);
                 yield return new WaitForSeconds(0.001f);
                 transform.rotation = Quaternion.Euler(0, 0, rotation);
