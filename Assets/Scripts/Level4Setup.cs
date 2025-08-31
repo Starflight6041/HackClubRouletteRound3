@@ -24,7 +24,7 @@ public class Level4Setup : LevelSetup
         mapCreator.GetTile(5, 0).ChangePlaceable2(true);
         mapCreator.GetTile(8, 1).ChangePlaceable2(true);
         mapCreator.GetTile(8, 2).ChangePlaceable2(true);
-        mapCreator.GetTile(8, 3).ChangePlaceable2(true);
+        
         mapCreator.GetTile(9, 1).ChangePlaceable2(true);
         mapCreator.GetTile(9, 2).ChangePlaceable2(true);
         mapCreator.GetTile(9, 3).ChangePlaceable2(true);

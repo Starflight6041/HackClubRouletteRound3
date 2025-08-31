@@ -118,11 +118,12 @@ public class Car : MonoBehaviour
             Debug.Log(map.GetTile(a, b));
             if (map.GetTile(a, b))
             {
-                if (map.GetTile(a, b).IsGoal())
+                if (map.GetTile(a, b).IsGoal() && !map.GetTile(a, b).GetObtainedStatus())
                 {
                     ChangeDestinationStatus(true);
                     gameManager.IncrementGoals();
                     map.GetTile(a, b).PlayAnimation();
+                    map.GetTile(a, b).ChangeObtainedStatus(true);
                     Debug.Log("I'm here!");
                 }
                 if (map.GetTile(a, b).Rotates())

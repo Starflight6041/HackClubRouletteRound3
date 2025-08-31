@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
     public Animator animator;
     public bool isRotator = false;
     public float rotationAmount = 0;
+    private bool goalObtained = false;
     public GameObject rotatorVisual;
     public void AddOccupied()
     {
@@ -64,6 +65,14 @@ public class Tile : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().material.SetColor("_Color", Color.red);
         }
+    }
+    public bool GetObtainedStatus()
+    {
+        return goalObtained;
+    }
+    public void ChangeObtainedStatus(bool a)
+    {
+        goalObtained = a;
     }
     public void ChangeGoalStatus(bool a)
     {

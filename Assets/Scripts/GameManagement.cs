@@ -68,11 +68,15 @@ public class GameManagement : MonoBehaviour
         {
             if (hit.collider.gameObject.GetComponent<Car>())
             {
-                GameObject carhit = hit.collider.gameObject;
-                carhit.GetComponent<Car>().IncrementOneCar();
-                carsPlaced.Remove(carhit.GetComponent<Car>());
-                map.Unoccupy(carhit.GetComponent<Car>().GetX(), carhit.GetComponent<Car>().GetY());
-                Destroy(carhit);
+                if (hit.collider.gameObject.GetComponent<Car>().GetPlayerPlaced())
+                {
+                    GameObject carhit = hit.collider.gameObject;
+                    carhit.GetComponent<Car>().IncrementOneCar();
+                    carsPlaced.Remove(carhit.GetComponent<Car>());
+                    map.Unoccupy(carhit.GetComponent<Car>().GetX(), carhit.GetComponent<Car>().GetY());
+                    Destroy(carhit);
+                }
+                
             }
         }
     }
